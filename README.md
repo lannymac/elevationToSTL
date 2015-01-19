@@ -7,7 +7,7 @@ PYTHON REQUIREMENTS:
        
 
 Here is an example STL file that I made of Long's Peak in Boulder Colorado.
-This image was make using Paraview:
+This image was made using Paraview:
 
 
 ![](https://github.com/lannymac/elevationToSTL/blob/master/Longs_Peak_Example.png)

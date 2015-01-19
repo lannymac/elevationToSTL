@@ -1,0 +1,9 @@
+This project was created to make STL files from USGS elevation data. Other tools are available but I made this to understand the process and to suite my needs better than other methods.
+
+PYTHON REQUIREMENTS:
+
+       Numpy
+       GDAL/OGR in Python
+       
+
+

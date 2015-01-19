@@ -7,17 +7,26 @@ import numpy as np
 from osgeo import gdal # To open GridFloat format
 from downloadElevUSGS import downloadElevUSGS
 from haversine import haversine
-
+import copy
 # Define Point of Interest (POI) Latitude and Longitude
 
-POILat = 40.254883
-POILon = -105.616118
-radius = 3. # km
+POILat = 40.596357
+POILon = -105.144393
+dx = 5. # km
+dy = 1. # km
 
 mapResolution = '13'
 mapName = 'terrain.stl'
 
-baseElev = 0. #m
+baseElev = 0. # m
+
+
+# This code can also regrid the data to larger or 
+# smaller grid spacing.
+reGrid = False
+
+reGridX = 50. # m
+reGridY = 50. # m
 
 # Download the proper files from the USGS FTP server
 
@@ -40,14 +49,25 @@ lats = np.arange(coords[3],coords[3] + (PLat[0]*coords[4] + PLat[1]*coords[5])*l
 Dx = haversine(POILon,lons,POILat,POILat)/1000.
 Dy = haversine(POILon,POILon,POILat,lats)/1000.
 
-relevantIndicesX = np.where(Dx <= radius)[0]
-relevantIndicesY = np.where(Dy <= radius)[0]
+relevantIndicesX = np.where(Dx <= dx)[0]
+relevantIndicesY = np.where(Dy <= dy)[0]
 
 LONS,LATS = np.meshgrid(lons[relevantIndicesX],lats[relevantIndicesY])
 X,Y = haversine(LONS[0,0],LONS,LATS[0,0],LATS[0,0]), haversine(LONS[0,0],LONS[0,0],LATS[0,0],LATS)
 zoomElev = elev[relevantIndicesY[0]:relevantIndicesY[-1]+1,relevantIndicesX[0]:relevantIndicesX[-1]+1]
 zoomElev = zoomElev - zoomElev.min()
 
+if reGrid:
+    from scipy.interpolate import griddata
+    xNew = np.arange(0,dx*1000.+1,reGridX)
+    yNew = np.arange(0,dy*1000.+1,reGridY)
+
+    XNew,YNew  = np.meshgrid(xNew,yNew)
+    zoomElev = griddata((X.flatten(),Y.flatten()), zoomElev.flatten(), (XNew.flatten(), YNew.flatten()), method='linear')
+
+    zoomElev = zoomElev.reshape(np.shape(XNew))
+    X = copy.copy(XNew); Y = copy.copy(YNew);
+    
 fileSTL = open(mapName,'wb')
 stl_str = 'solid terrain\n'
 

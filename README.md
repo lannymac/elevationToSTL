@@ -2,8 +2,9 @@ This project was created to make STL files from USGS elevation data. Other tools
 
 PYTHON REQUIREMENTS:
 
-       Numpy
+       NumPy
        GDAL/OGR in Python
+       SciPy (for regridding)
        
 UNIX REQUIREMENTS
      

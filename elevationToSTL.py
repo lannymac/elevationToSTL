@@ -10,8 +10,8 @@ from haversine import haversine
 
 # Define Point of Interest (POI) Latitude and Longitude
 
-POILat = 40.596423
-POILon = -105.144221
+POILat = 40.254883
+POILon = -105.616118
 radius = 3. # km
 
 mapResolution = '13'

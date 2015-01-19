@@ -5,6 +5,11 @@ PYTHON REQUIREMENTS:
        Numpy
        GDAL/OGR in Python
        
+UNIX REQUIREMENTS
+     
+       wget
+       unzip	
+       
 
 Here is an example STL file that I made of Long's Peak in Boulder Colorado.
 This image was made using Paraview:
